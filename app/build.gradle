@@ -1,0 +1,63 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+
+        // 23 = Android Marshmallow
+        compileSdkVersion = 23
+        buildToolsVersion = '23.0.2'
+
+        defaultConfig {
+            applicationId "com.anandmuralidhar.glescontextandroid"
+            // assuming that device had Android KitKat (19) or above
+            minSdkVersion.apiLevel = 19
+            targetSdkVersion.apiLevel = 22
+
+            // versionCode and versionName are relevant if you release the app on Google Play
+            versionCode 1
+            versionName "1.0"
+        }
+
+        ndk {
+            platformVersion = 19
+            moduleName = 'GLESNative' // this creates libGLESNative.so and should be loaded in Java
+            toolchain = "gcc"
+            stl       = 'gnustl_static'
+
+            // specify the path to jni code
+            cppFlags.addAll(['-I' + file('src/main/jni/gles_native')])
+
+            cppFlags.addAll(['-std=c++11', '-Wall', '-fno-exceptions', '-fno-rtti'])
+            ldLibs.addAll(['android', 'log', 'EGL', 'GLESv2', "stdc++"])
+        }
+
+        sources {
+            main {
+                jni {
+                    dependencies {
+                        // we use some functions from ndk_helper to simplify native tasks
+                        project ':ndk_helper' linkage 'static'
+                    }
+                    source {
+                        srcDirs 'src/main/jni'
+                    }
+                }
+                jniLibs {}
+            }
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled = false
+                proguardFiles.add(file('proguard-rules.txt'))
+            }
+        }
+
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.4.0'
+}

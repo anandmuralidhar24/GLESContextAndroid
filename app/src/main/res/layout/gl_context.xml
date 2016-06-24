@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <!-- We will create a GLES context and render to this SurfaceView -->
+    <com.anandmuralidhar.glescontextandroid.MyGLSurfaceView
+        android:id="@+id/gl_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- TextBox where OpenGLES version is displayed -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/gles_version_textbox"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="left|center_vertical"
+        android:textSize="25dp"/>
+
+</FrameLayout>
