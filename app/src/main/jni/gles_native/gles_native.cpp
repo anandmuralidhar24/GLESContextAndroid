@@ -75,7 +75,7 @@ void GLESNative::PerformGLInits() {
 
     initsDone = true;
 
-    CheckGLError("GLESNative::LoadGLData");
+    CheckGLError("GLESNative::PerformGLInits");
 }
 
 
