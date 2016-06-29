@@ -1,29 +1,41 @@
+/*
+ *    Copyright 2016 Anand Muralidhar
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package com.anandmuralidhar.glescontextandroid;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
-/**
- * Created by anand on 17/6/16.
- */
 public class GLESContextActivity extends Activity {
     private GLSurfaceView mGLView = null;
     private TextView mTextView = null;
-    private native void createObjectNative();
-    private native void deleteObjectNative();
-    private native String getGLESVersionNative();
-    private native boolean isInitsDoneNative();
+    private native void CreateObjectNative();
+    private native void DeleteObjectNative();
+    private native String GetGLESVersionNative();
+    private native boolean IsInitsDoneNative();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // call the native constructors to create an object
-        createObjectNative();
+        CreateObjectNative();
 
         // layout has only two components, a GLSurfaceView and a TextView
         setContentView(R.layout.gl_context);
@@ -61,7 +73,7 @@ public class GLESContextActivity extends Activity {
         super.onDestroy();
 
         // We are exiting the activity, let's delete the native objects
-        deleteObjectNative();
+        DeleteObjectNative();
 
     }
 
@@ -76,7 +88,7 @@ public class GLESContextActivity extends Activity {
         protected Integer doInBackground(Void... params) {
 
             // keep polling to check if native objects are initialized
-            while(!isInitsDoneNative()) {
+            while(!IsInitsDoneNative()) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -93,12 +105,12 @@ public class GLESContextActivity extends Activity {
         protected void onPostExecute(Integer result) {
 
             // GLES version is displayed on the screen
-            displayGLVersion(getGLESVersionNative());
+            DisplayGLVersion(GetGLESVersionNative());
 
         }
     }
 
-    void displayGLVersion(String GLVersionInfo) {
+    void DisplayGLVersion(String GLVersionInfo) {
         if(mTextView != null) {
             mTextView.setText(GLVersionInfo);
         }

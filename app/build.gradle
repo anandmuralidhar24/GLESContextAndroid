@@ -27,7 +27,7 @@ model {
             stl       = 'gnustl_static'
 
             // specify the path to jni code
-            cppFlags.addAll(['-I' + file('src/main/jni/gles_native')])
+            cppFlags.addAll(['-I' + file('src/main/jni/glesNative')])
 
             cppFlags.addAll(['-std=c++11', '-Wall', '-fno-exceptions', '-fno-rtti'])
             ldLibs.addAll(['android', 'log', 'EGL', 'GLESv2', "stdc++"])
